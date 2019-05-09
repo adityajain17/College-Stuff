@@ -1,0 +1,14 @@
+declare
+cursor emp_cursor (dep employee.departmentnumber%type) is select ssn,firstname from employee where departmentnumber=dep;
+essn number;
+ename employee.firstname%type;
+begin
+open emp_cursor(4);
+loop
+fetch emp_cursor into essn,ename;
+exit when emp_cursor%NOTFOUND;
+dbms_output.put_line(essn || '     ' ||ename);
+end loop;
+close emp_cursor;
+end;
+/

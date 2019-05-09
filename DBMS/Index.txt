@@ -1,0 +1,16 @@
+Set1_1 Cursors
+Set2_1 Function with one parameter
+Set3_1 Function with two parameter
+Set7_1 Procedure along with Cursor
+Set4_1 Procedure with multiple output
+Set4_1_Multip  Procedure along with Cursors
+
+Set1_2 Prime Numbers 1 to 100
+Set2_2 Fibonacci Numbers to n
+Set3_2 Reverse of the Number
+Set4_2 Factorial of the Number
+Set5_2 Sum from 1 to N
+Set7_2 Armstrong Number
+
+Ex2_1 mutiple if-else if-else
+Ex2_2 switch case with conditions
