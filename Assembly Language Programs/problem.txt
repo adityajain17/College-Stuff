@@ -1,0 +1,5 @@
+The user will enter the password and Let's say that the password is 4 characters long 
+and I will compare it with a hard coded password. If the user enters the password wrong 3
+times conecutively sound the buzzer, keep a count of wrong attempts and also a flag variable
+to indicate that whether the door is open or closed and use the stepper motor to open
+or close the door 
