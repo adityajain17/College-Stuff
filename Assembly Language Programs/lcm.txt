@@ -1,0 +1,50 @@
+;;;;;;;;;;;;;;;;;;;;;Assembly code for transfer of data from one memory location to another;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Directives
+          PRESERVE8
+          THUMB 
+
+ 
+; Vector Table Mapped to Address 0 at Reset
+; Linker requires __Vectors to be exported
+ 
+          AREA    RESET, DATA, READONLY
+          EXPORT  __Vectors
+ 
+__Vectors 
+	      DCD  0x20001000     ; stack pointer value when stack is empty
+          DCD  Reset_Handler  ; reset vector
+  
+          ALIGN
+ 
+; Linker requires Reset_Handler
+SRAM_BASE EQU	0x04000000
+          AREA    MYCODE, CODE, READONLY
+          ENTRY
+   	      EXPORT Reset_Handler
+
+Reset_Handler
+;;;;;;;;;;User Code Starts from the next line;;;;;;;;;;;;
+			
+			MOV R1,#0x7
+			MOV R2,#0x3
+			CMP R1,R2
+			ITE GE
+			MOVGE R3,R1
+			MOVLT R3,R2
+Loop
+			UDIV R4,R3,R1
+			UDIV R5,R3,R2
+			MLS  R4,R4,R1,R3
+			MLS  R5,R5,R2,R3
+			CMP  R4,#0
+			BNE  Label
+			CMP  R5,#0
+			BNE  Label
+			MOV R6,R3
+			B STOP
+Label       
+			ADD R3,#1
+			B Loop
+STOP        B STOP
+			END

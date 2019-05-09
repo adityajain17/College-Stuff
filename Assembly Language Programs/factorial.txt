@@ -1,0 +1,37 @@
+;;;;;;;;;;;;;;;;;;;;;Assembly code for transfer of data from one memory location to another;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Directives
+          PRESERVE8
+          THUMB       
+ 
+; Vector Table Mapped to Address 0 at Reset
+; Linker requires __Vectors to be exported
+ 
+          AREA    RESET, DATA, READONLY
+          EXPORT  __Vectors
+ 
+__Vectors 
+	      DCD  0x20001000     ; stack pointer value when stack is empty
+          DCD  Reset_Handler  ; reset vector
+  
+          ALIGN
+ 
+; Linker requires Reset_Handler
+SRAM_BASE EQU	0x04000000
+          AREA    MYCODE, CODE, READONLY
+          ENTRY
+   	      EXPORT Reset_Handler
+
+Reset_Handler
+;;;;;;;;;;User Code Starts from the next line;;;;;;;;;;;;
+		    MOV		R0,#5   ;;The number whose factorial we need to find
+			MOV		R1,#1
+loop	
+			CBZ		R0,label2
+			MUL		R1,R0
+			SUB		R0,#1
+			B loop
+label2
+STOP        B 		STOP
+
+			END

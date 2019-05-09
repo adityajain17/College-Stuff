@@ -1,0 +1,132 @@
+;;;;;;;;;;;;;;;;;;;;;Assembly code for transfer of data from one memory location to another;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Directives
+          PRESERVE8
+          THUMB 
+
+ 
+; Vector Table Mapped to Address 0 at Reset
+; Linker requires __Vectors to be exported
+ 
+          AREA    RESET, DATA, READONLY
+          EXPORT  __Vectors
+ 
+__Vectors 
+	      DCD  0x20001000     ; stack pointer value when stack is empty
+          DCD  Reset_Handler  ; reset vector
+  
+          ALIGN
+ 
+; Linker requires Reset_Handler
+SRAM_BASE EQU	0x04000000
+          AREA    MYCODE, CODE, READONLY
+          ENTRY
+   	      EXPORT Reset_Handler
+
+Reset_Handler
+;;;;;;;;;;User Code Starts from the next line;;;;;;;;;;;;
+			
+			B START
+GENTLE
+		MOV R4,#0
+		STRB R4,[R1]
+		MOV R2,#6000
+		MOV R5,#10
+		MUL R2,R5
+LOOP	SUB R2,#1
+		CMP R2,#0
+		BNE LOOP
+		MOV R4,#1
+		STRB R4,[R1]
+		MOV R2,#4200
+		MOV R5,#10
+		MUL R2,R5
+LOOP2	SUB R2,#1
+		CMP R2,#0
+		BNE LOOP2
+		MOV R4,#3
+		STRB R4,[R1]
+		MOV R2,#7200
+		MOV R5,#10
+		MUL R2,R5
+LOOP3	SUB R2,#1
+		CMP R2,#0
+		BNE LOOP3
+		BX LR
+		
+		
+NORMAL
+		MOV R4,#0
+		STRB R4,[R1]
+		MOV R2,#12000
+		MOV R5,#10
+		MUL R2,R5
+LOOP4	SUB R2,#1
+		CMP R2,#0
+		BNE LOOP4
+		MOV R4,#1
+		STRB R4,[R1]
+		MOV R2,#9000
+		MOV R5,#10
+		MUL R2,R5
+LOOP5	SUB R2,#1
+		CMP R2,#0
+		BNE LOOP5
+		MOV R4,#3
+		STRB R4,[R1]
+		MOV R2,#15000
+		MOV R5,#10
+		MUL R2,R5
+LOOP6	SUB R2,#1
+		CMP R2,#0
+		BNE LOOP6
+		BX LR
+		
+		
+		
+HEAVY
+		MOV R4,#0
+		STRB R4,[R1]
+		MOV R2,#18000
+		MOV R5,#10
+		MUL R2,R5
+LOOP7	SUB R2,#1
+		CMP R2,#0
+		BNE LOOP7
+		MOV R4,#1
+		STRB R4,[R1]
+		MOV R2,#12000
+		MOV R5,#10
+		MUL R2,R5
+LOOP8	SUB R2,#1
+		CMP R2,#0
+		BNE LOOP8
+		MOV R4,#3
+		STRB R4,[R1]
+		MOV R2,#21000
+		MOV R5,#10
+		MUL R2,R5
+LOOP9	SUB R2,#1
+		CMP R2,#0
+		BNE LOOP9
+		BX LR
+		
+START
+		;R0 - MODE	0 - GENTLE	1 - NORMAL	2 - HEAVY		#0x10002000
+		;R1 - CYCLE	0 - WASH	1 - RINSE	2 - DRY			#0x10002001
+		LDR R3,=0x10002000
+		LDR R1,=0x10002001
+		
+		LDRB R0,[R3]
+		CMP R0,#0
+		BNE NEXT
+		BL GENTLE
+NEXT	CMP R0,#1
+		BNE NEXT2
+		BL NORMAL
+NEXT2	CMP R0,#2
+		BNE NEXT3
+		BL HEAVY
+NEXT3	B START
+STOP	B STOP
+	END

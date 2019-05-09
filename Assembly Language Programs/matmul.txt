@@ -1,0 +1,70 @@
+;;;;;;;;;;;;;;;;;;;;;Assembly code for transfer of data from one memory location to another;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Directives
+          PRESERVE8
+          THUMB       
+ 
+; Vector Table Mapped to Address 0 at Reset
+; Linker requires __Vectors to be exported
+ 
+          AREA    RESET, DATA, READONLY
+          EXPORT  __Vectors
+ 
+__Vectors 
+	      DCD  0x20001000     ; stack pointer value when stack is empty
+          DCD  Reset_Handler  ; reset vector
+  
+          ALIGN
+ 
+; Linker requires Reset_Handler
+SRAM_BASE EQU	0x04000000
+          AREA    MYCODE, CODE, READONLY
+          ENTRY
+   	      EXPORT Reset_Handler
+
+Reset_Handler
+;;;;;;;;;;User Code Starts from the next line;;;;;;;;;;;;					
+			LDR		R0,=0X10002000
+			MOV		R2,#8	
+			MOV		R1,#1
+loop		
+			CBZ		R2,label
+			STR		R1,[R0],#1
+			ADD		R1,#1
+			SUB		R2,#1
+			B loop
+label
+			SUB		R0,#8
+			LDRB	R1,[R0],#1
+			LDRB	R2,[R0],#1
+			LDRB	R3,[R0],#1
+			LDRB	R4,[R0],#1
+			LDRB	R5,[R0],#1
+			LDRB	R6,[R0],#1
+			LDRB	R7,[R0],#1
+			LDRB	R8,[R0],#1
+
+			
+			MUL		R9,R1,R5
+			MUL		R10,R2,R7
+			ADD		R9,R10
+			STRB	R9,[R0],#1
+			
+			MUL		R9,R1,R6
+			MUL		R10,R2,R8
+			ADD		R9,R10
+			STRB	R9,[R0],#1
+			
+			MUL		R9,R3,R5
+			MUL		R10,R4,R7
+			ADD		R9,R10
+			STRB	R9,[R0],#1
+			
+			MUL		R9,R3,R6
+			MUL		R10,R4,R8
+			ADD		R9,R10
+			STRB	R9,[R0],#1
+			
+STOP        B 		STOP
+
+			END
